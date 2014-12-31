@@ -1,0 +1,89 @@
+# This makes pbcopy/pbpaste work in tmux 
+# set-option -g default-command "reattach-to-user-namespace -l bash" OSX Only?
+
+set-option -g prefix C-f
+unbind-key C-b
+bind-key a send-prefix
+
+set -g default-terminal "screen-256color"
+
+setw -g aggressive-resize on
+
+set-window-option -g xterm-keys on
+setw -g mode-keys vi
+setw -g monitor-activity on
+set -g status-keys vi
+set -g history-limit 10000
+
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+bind % split-window -h
+bind : split-window -v
+bind < resize-pane -L 1
+bind > resize-pane -R 1
+bind - resize-pane -D 1
+bind + resize-pane -U 1
+
+unbind x
+bind x run ". ~/.tmux/zoom"
+
+bind a last-window
+
+bind tab select-pane -t :.+
+
+bind m break-pane
+
+bind C-h swapp -U
+bind C-j swapp -D
+bind C-k swapp -U
+bind C-l swapp -D
+
+# Shift arrow to switch windows
+bind -n S-Left  previous-window
+bind -n S-Right next-window
+
+# No delay for escape key press
+set -sg escape-time 0
+
+# Reload tmux config
+bind r source-file ~/.tmux.conf
+
+bind w killp
+bind q kill-server
+bind k confirm kill-window
+bind K confirm kill-server
+
+# add maximizing
+# bind m run "if [[ $(tmux list-window) =~ tmux-zoom ]]; then tmux last-window; tmux swap-pane -s tmux-zoom.0; tmux kill-window -t tmux-zoom; else tmux new-window -d -n tmux-zoom; tmux swap-pane -s tmux-zoom.0; tmux select-window -t tmux-zoom;fi"
+bind m run "~/.dotfiles/tmux/maximize.sh"
+
+# _ Handy options {{{
+
+# Start numbering windows at 1
+set -g base-index 1
+
+set -g history-limit 10000
+
+# }}}
+
+set-option -g   status-utf8 on
+
+set -g status-left-length 32
+set -g status-right-length 150
+
+set -g status-fg white
+set -g status-bg colour234
+set -g window-status-activity-attr bold
+set -g pane-border-fg colour245
+set -g pane-active-border-fg colour39
+set -g message-fg colour16
+set -g message-bg colour221
+set -g message-attr bold
+
+set -g status-left '#[fg=colour235,bg=colour252,bold] ❐ #S #[fg=colour252,bg=colour238,nobold]⮀#[fg=colour245,bg=colour238,bold] #(whoami) #[fg=colour238,bg=colour234,nobold]⮀'
+set -g window-status-format "#[fg=white,bg=colour234] #I #W "
+set -g window-status-current-format "#[fg=colour234,bg=colour39]⮀#[fg=colour25,bg=colour39,noreverse,bold] #I ⮁ #W #[fg=colour39,bg=colour234,nobold]⮀"
+set -g status-right '#[fg=color39] #H'

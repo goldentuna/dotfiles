@@ -1,0 +1,8 @@
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export GREP_OPTIONS='--color=always'
+export GITAWAREPROMPT=~/.bash/git-aware-prompt
+source $GITAWAREPROMPT/main.sh
+source ~/.bash_aliases
+export PS1="\u@\h\[$txtwht\][\[$txtylw\]\w\[$txtwht\]]\[$txtwht\][\[$txtcyn\]\$git_branch\[$txtwht\]]\[$txtred\]\$git_dirty\[$txtrst\]\$ "
+export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
